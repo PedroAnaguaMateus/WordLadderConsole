@@ -11,7 +11,6 @@ namespace WordLadderConsole
     public class ConsoleController 
     {
         private ConsoleModel model;
-        public string lastWord;
 
         public ConsoleController()
         {

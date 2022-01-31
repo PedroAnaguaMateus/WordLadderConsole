@@ -8,9 +8,9 @@ namespace WordLadderConsole
 {
     public class ConsoleModel
     {
-        public string FirstWord { get; set; }
-        public string LastWord { get; set; }
-        public List<string>? allWords { get; set; }
+        public string FirstWord { get; set; } = String.Empty;
+        public string LastWord { get; set; } = String.Empty;
+        public List<string> allWords { get; set; } = new List<string>();
 
         public ConsoleModel()
         {

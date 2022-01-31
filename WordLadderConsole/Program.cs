@@ -1,7 +1,6 @@
 ﻿using WordLadderConsole;
 
 ConsoleController consoleControler = new ConsoleController();
-var filename = string.Empty;
 
 do
 {
