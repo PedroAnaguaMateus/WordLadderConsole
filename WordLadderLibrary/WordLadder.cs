@@ -6,20 +6,20 @@ namespace WordLadderLibrary
     {
         public IList<IList<string>> FindLadders(string beginWord, string endWord, IList<string> wordList)
         {
-            Dictionary<string, HashSet<string>> graph = new Dictionary<string, HashSet<string>>();
+            Dictionary<string, HashSet<string>> graph = new();
             AddWordToGraph(beginWord, graph);
             foreach (var word in wordList)
                 AddWordToGraph(word, graph);
 
             //Queue For BFS
-            Queue<string> queue = new Queue<string>();
+            Queue<string> queue = new();
             //Dictionary to store shortest paths to a word
-            Dictionary<string, IList<IList<string>>> paths = new Dictionary<string, IList<IList<string>>>();
+            Dictionary<string, IList<IList<string>>> paths = new();
 
             queue.Enqueue(beginWord);
             paths[beginWord] = new List<IList<string>>() { new List<string>() { beginWord } };
 
-            HashSet<string> visited = new HashSet<string>();
+            HashSet<string> visited = new();
 
             while (queue.Count > 0)
             {
@@ -41,7 +41,7 @@ namespace WordLadderLibrary
                     for (int i = 0; i < stopWord.Length; i++)
                     {
 
-                        StringBuilder sb = new StringBuilder(stopWord);
+                        StringBuilder sb = new(stopWord);
                         sb[i] = '*';
                         var transform = sb.ToString();
 
@@ -57,8 +57,10 @@ namespace WordLadderLibrary
                                     foreach (var path in paths[stopWord])
                                     {
 
-                                        var newPath = new List<string>(path);
-                                        newPath.Add(word);
+                                        var newPath = new List<string>(path)
+                                        {
+                                            word
+                                        };
 
                                         if (!paths.ContainsKey(word))
                                             paths[word] = new List<IList<string>>() { newPath };

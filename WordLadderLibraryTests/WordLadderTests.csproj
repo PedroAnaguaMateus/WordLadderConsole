@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WordLadderConsole\WordLadderConsole.csproj" />
     <ProjectReference Include="..\WordLadderLibrary\WordLadderLibrary.csproj" />
   </ItemGroup>
 

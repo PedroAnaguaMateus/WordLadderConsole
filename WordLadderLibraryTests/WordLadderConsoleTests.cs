@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace WordLadderLibrary.Tests
+namespace WordLadderConsole.Tests
 {
     [TestClass()]
     public class WordLadderConsoleTests
@@ -15,8 +15,8 @@ namespace WordLadderLibrary.Tests
         [TestMethod()]
         public void FindLaddersTest()
         {
-            IWordLadder wordLadder = new WordLadder();
-            IList<IList<string>> result =  wordLadder.FindLadders("hide", "sort", File.ReadAllLines("c:\\Tests\\words.txt")).Reverse().ToList();
+            ConsoleController consoleController = new("hide", "sort", File.ReadAllLines("c:\\Tests\\words.txt").ToList());
+            IList<IList<string>> result = consoleController.GetLadders();
             Assert.AreEqual("hide", result[0][0].ToString());
             Assert.AreEqual("hire", result[0][1].ToString());
             Assert.AreEqual("sire", result[0][2].ToString());
@@ -27,16 +27,32 @@ namespace WordLadderLibrary.Tests
         [TestMethod()]
         public void EmptyWordsTest()
         {
-            IWordLadder wordLadder = new WordLadder();
-            IList<IList<string>> result = wordLadder.FindLadders("", "", File.ReadAllLines("c:\\Tests\\words.txt")).Reverse().ToList();
-            Assert.AreEqual("", result[0][0].ToString());
+            ConsoleController consoleController = new("", "", File.ReadAllLines("c:\\Tests\\words.txt").ToList());
+            IList<IList<string>> result = consoleController.GetLadders();
+            Assert.IsTrue(result.Count == 0);
         }
 
         [TestMethod()]
         public void EmptyFirtWordTest()
         {
-            IWordLadder wordLadder = new WordLadder();
-            IList<IList<string>> result = wordLadder.FindLadders("", "rest", File.ReadAllLines("c:\\Tests\\words.txt")).Reverse().ToList();
+            ConsoleController consoleController = new("", "sort", File.ReadAllLines("c:\\Tests\\words.txt").ToList());
+            IList<IList<string>> result = consoleController.GetLadders();
+            Assert.IsTrue(result.Count == 0);
+        }
+
+        [TestMethod()]
+        public void EmptyDictonary()
+        {
+            ConsoleController consoleController = new("", "sort", new List<string>());
+            IList<IList<string>> result = consoleController.GetLadders();
+            Assert.IsTrue(result.Count == 0);
+        }
+
+        [TestMethod()]
+        public void DifferentLengthsWordTest()
+        {
+            ConsoleController consoleController = new("radiod", "sort", File.ReadAllLines("c:\\Tests\\words.txt").ToList());
+            IList<IList<string>> result = consoleController.GetLadders();
             Assert.IsTrue(result.Count == 0);
         }
     }
