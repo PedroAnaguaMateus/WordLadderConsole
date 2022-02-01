@@ -56,7 +56,6 @@ namespace WordLadderLibrary
                                     //fetch all paths leads current word to generate paths to adj/child node 
                                     foreach (var path in paths[stopWord])
                                     {
-
                                         var newPath = new List<string>(path)
                                         {
                                             word

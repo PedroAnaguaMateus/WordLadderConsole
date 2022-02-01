@@ -25,6 +25,30 @@ namespace WordLadderConsole.Tests
         }
 
         [TestMethod()]
+        public void FindLaddersSpinSpotTest()
+        {
+            ConsoleController consoleController = new("spin", "spot", File.ReadAllLines("c:\\Tests\\words.txt").ToList());
+            IList<IList<string>> result = consoleController.GetLadders();
+            Assert.AreEqual("spin", result[0][0].ToString());
+            Assert.AreEqual("spit", result[0][1].ToString());
+            Assert.AreEqual("spot", result[0][2].ToString());
+
+        }
+
+
+        [TestMethod()]
+        public void FindLaddersSameCostTest()
+        {
+            ConsoleController consoleController = new("same", "cost", File.ReadAllLines("c:\\Tests\\words.txt").ToList());
+            IList<IList<string>> result = consoleController.GetLadders();
+            Assert.AreEqual("same", result[0][0].ToString());
+            Assert.AreEqual("came", result[0][1].ToString());
+            Assert.AreEqual("case", result[0][2].ToString());
+            Assert.AreEqual("cast", result[0][3].ToString());
+            Assert.AreEqual("cost", result[0][4].ToString());
+        }
+
+        [TestMethod()]
         public void EmptyWordsTest()
         {
             ConsoleController consoleController = new("", "", File.ReadAllLines("c:\\Tests\\words.txt").ToList());
