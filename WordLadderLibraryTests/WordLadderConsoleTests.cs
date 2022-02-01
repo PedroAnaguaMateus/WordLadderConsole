@@ -10,7 +10,7 @@ using System.IO;
 namespace WordLadderLibrary.Tests
 {
     [TestClass()]
-    public class WordLadderTests
+    public class WordLadderConsoleTests
     {
         [TestMethod()]
         public void FindLaddersTest()
@@ -22,6 +22,22 @@ namespace WordLadderLibrary.Tests
             Assert.AreEqual("sire", result[0][2].ToString());
             Assert.AreEqual("sore", result[0][3].ToString());
             Assert.AreEqual("sort", result[0][4].ToString());
+        }
+
+        [TestMethod()]
+        public void EmptyWordsTest()
+        {
+            IWordLadder wordLadder = new WordLadder();
+            IList<IList<string>> result = wordLadder.FindLadders("", "", File.ReadAllLines("c:\\Tests\\words.txt")).Reverse().ToList();
+            Assert.AreEqual("", result[0][0].ToString());
+        }
+
+        [TestMethod()]
+        public void EmptyFirtWordTest()
+        {
+            IWordLadder wordLadder = new WordLadder();
+            IList<IList<string>> result = wordLadder.FindLadders("", "rest", File.ReadAllLines("c:\\Tests\\words.txt")).Reverse().ToList();
+            Assert.IsTrue(result.Count == 0);
         }
     }
 }

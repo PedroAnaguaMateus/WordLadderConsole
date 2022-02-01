@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordLadderConsole", "WordLa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordLadderLibrary", "WordLadderLibrary\WordLadderLibrary.csproj", "{7D04AD1D-3500-4536-BEB6-6DD49BE511BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordLadderLibraryTests", "WordLadderLibraryTests\WordLadderLibraryTests.csproj", "{C7E72487-7248-48F1-AA38-93932439EBB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WordLadderTests", "WordLadderLibraryTests\WordLadderTests.csproj", "{C7E72487-7248-48F1-AA38-93932439EBB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

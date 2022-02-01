@@ -12,9 +12,12 @@ namespace WordLadderConsole
     {
         private ConsoleModel model;
 
-        public ConsoleController()
+        public ConsoleController(string first, string last, List<string> allWords)
         {
             model = new ConsoleModel();
+            model.FirstWord = first;
+            model.LastWord = last;
+            model.allWords = allWords;
         }
 
         public ConsoleController(ConsoleModel model)
@@ -22,34 +25,13 @@ namespace WordLadderConsole
             this.model = model;
         }
 
-        public void SetFirstWord(string firstWord)
-        {
-            model.FirstWord = firstWord;
-        }
-
-        public void SetLastWord(string lastWord)
-        {
-            model.LastWord = lastWord;
-        }
-
-        public bool GetDictonaryFile(string filename)
-        {
-            if(File.Exists(Environment.CurrentDirectory + "\\" + filename))
-            {
-                model.allWords = new List<string>(File.ReadAllLines(filename));
-                
-                return true;
-            }
-
-            return false;
-        }
 
         public IList<IList<string>> GetLadders()
         {
             IList<IList<string>> results = new List<IList<string>>();
             WordLadderLibrary.WordLadder library = new WordLadderLibrary.WordLadder();
 
-            if (string.IsNullOrEmpty(model.FirstWord) && string.IsNullOrEmpty(model.LastWord))
+            if (!string.IsNullOrEmpty(model.FirstWord) && !string.IsNullOrEmpty(model.LastWord) && model.allWords.Count > 0)
                 results = library.FindLadders(model.FirstWord, model.LastWord, model.allWords);
            
             return results;

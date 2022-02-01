@@ -1,21 +1,35 @@
 ﻿using WordLadderConsole;
 
-ConsoleController consoleControler = new ConsoleController();
+ConsoleController consoleControler; 
+Filehandler filehandler = new Filehandler();
+List<string> allwords = new List<string>();
+string firstWord, lastWord = string.Empty;
+//bool fileExists = false;
 
-do
-{
-    Console.WriteLine(Constants.DictonaryFileRequest); 
-} while (!consoleControler.GetDictonaryFile(Console.ReadLine() ?? string.Empty));
+//do (!fileExists)
+//{
+//    string filename = Console.ReadLine() ?? String.Empty;
+//    if (File.Exists(Environment.CurrentDirectory + "\\" + filename))
+//    {
+//        filehandler.GetAllWordsFromFile(allwords, filename).Start();
+//        fileExists = true;
+//    }
+//}while()
 
- Console.WriteLine(Constants.StartWordRequest); 
- consoleControler.SetFirstWord(Console.ReadLine() ?? string.Empty);
+Console.WriteLine(Constants.DictonaryFileRequest);
+await filehandler.GetAllWordsFromFile(allwords, Environment.CurrentDirectory + "\\" + (Console.ReadLine() ?? String.Empty));
 
-Console.WriteLine(Constants.LastWordRequest); 
-consoleControler.SetLastWord(Console.ReadLine() ?? string.Empty);
+Console.WriteLine(Constants.StartWordRequest);
+firstWord = Console.ReadLine() ?? string.Empty;
+
+Console.WriteLine(Constants.LastWordRequest);
+lastWord = Console.ReadLine() ?? string.Empty;
 
 Console.WriteLine(Constants.AnswerFileRequest);
 var resultsfile = Console.ReadLine();
 
+
+consoleControler = new ConsoleController(firstWord, lastWord, allwords);
 var results = consoleControler.GetLadders().Reverse().ToList();
 if (results.Count > 0)
-    await File.WriteAllLinesAsync(Environment.CurrentDirectory + "\\" + resultsfile, results[0]);
+    await filehandler.WriteLadderToFile(Environment.CurrentDirectory + "\\" + resultsfile, results[0].ToList<string>());
