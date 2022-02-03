@@ -32,7 +32,7 @@ namespace WordLadderConsole
                 results = library.FindLadders(model.FirstWord, model.LastWord,
                     model.allWords.Where(x => x.Length == model.FirstWord.Length 
                     && (x.StartsWith(model.FirstWord.FirstOrDefault()) || x.StartsWith(model.LastWord.FirstOrDefault()))
-                    && (x.EndsWith(model.FirstWord.LastOrDefault()) || x.EndsWith(model.LastWord.LastOrDefault()))).ToList()).Reverse().ToList();
+                    && (x.EndsWith(model.FirstWord.LastOrDefault()) || x.EndsWith(model.LastWord.LastOrDefault()))).ToList()).ToList();
            
             return results;
         }

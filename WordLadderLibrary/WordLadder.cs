@@ -20,7 +20,7 @@ namespace WordLadderLibrary
             return ladders;
         }
 
-        private List<IList<string>> OrderLadders(List<IList<string>> ladders)
+        private static List<IList<string>> OrderLadders(List<IList<string>> ladders)
         {
             List<string> alfabelicalFirsList = new(ladders.First().ToList());
             bool firstFound = false;
