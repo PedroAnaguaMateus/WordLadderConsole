@@ -11,9 +11,11 @@ string GetConsoleLineAnswer(string question)
 ConsoleController consoleControler; 
 Filehandler filehandler = new();
 List<string> allwords = new();
-string firstWord, lastWord, resultsfile;
+string firstWord, lastWord, resultsfile, answersFile;
 
-await filehandler.GetAllWordsFromFile(allwords, GetConsoleLineAnswer(Constants.DictonaryFileRequest));
+answersFile = GetConsoleLineAnswer(Constants.DictonaryFileRequest);
+if(File.Exists(answersFile))
+    await filehandler.GetAllWordsFromFile(allwords, answersFile);
 
 firstWord = GetConsoleLineAnswer(Constants.StartWordRequest);
 lastWord = GetConsoleLineAnswer(Constants.LastWordRequest);
