@@ -13,13 +13,45 @@ namespace WordLadderLibrary
                     List<IList<string>> laddersfirst = FirstInteractionLadder(beginWord, endWord, wordList.ToList());
                     List<IList<string>> laddersSecond = AppendFirstWord(beginWord, laddersfirst);
                     ladders = AfterFirstInteractionLadder(endWord, wordList.ToList(), laddersSecond);
+
+                    ladders = OrderLadders(ladders);
                 }
 
             return ladders;
         }
 
+        private List<IList<string>> OrderLadders(List<IList<string>> ladders)
+        {
+            List<string> alfabelicalFirsList = new(ladders.First().ToList());
+            bool firstFound = false;
 
-        private List<IList<string>> AppendFirstWord(string beginWord, List<IList<string>> laddersfirst) 
+            if (ladders.Count > 1)
+            {
+                List<string> firstladder = ladders.First().ToList();
+                foreach (string word in firstladder)
+                {
+                    string wordToCompare = word;
+                    foreach (List<string> ladder in ladders)
+                    {
+                        int index = firstladder.IndexOf(word);
+
+                        if(index < ladder.Count)
+                            if(wordToCompare.CompareTo(ladder.ElementAt(index)) > 0)
+                            {
+                                alfabelicalFirsList = new(ladder);
+                                firstFound = true;
+                            }
+                    }
+
+                    if (firstFound)
+                        break;
+                }  
+
+            }
+            return new List<IList<string>> { alfabelicalFirsList };
+        }
+
+        private static List<IList<string>> AppendFirstWord(string beginWord, List<IList<string>> laddersfirst) 
         {
             List<IList<string>> laddersSecond = new();
 
