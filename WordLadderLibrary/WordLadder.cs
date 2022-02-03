@@ -10,10 +10,10 @@ namespace WordLadderLibrary
             if (!String.IsNullOrEmpty(beginWord) && !String.IsNullOrEmpty(endWord) && wordList.Count > 0)
                 if(beginWord.Length == endWord.Length)
                 {
-                    List<IList<string>> laddersfirst = FirstInteractionLadder(beginWord, endWord, wordList.ToList());
-                    List<IList<string>> laddersSecond = AppendFirstWord(beginWord, laddersfirst);
-                    ladders = AfterFirstInteractionLadder(endWord, wordList.ToList(), laddersSecond);
-
+                    List<IList<string>> laddersfirst = GetLadders(beginWord, endWord, wordList.ToList());
+                    
+                    laddersfirst = AppendFirstWord(beginWord, laddersfirst);
+                    ladders = AfterFirstInteractionLadder(endWord, wordList.ToList(), laddersfirst);
                     ladders = OrderLadders(ladders);
                 }
 
@@ -103,11 +103,6 @@ namespace WordLadderLibrary
                     finish = true;
 
             return finish;
-        }
-
-        private List<IList<string>> FirstInteractionLadder(string beginWord, string endWord, List<string> wordList)
-        {
-            return GetLadders(beginWord, endWord, wordList);
         }
 
         private List<IList<string>> GetLadders(string beginWord, string endWord, List<string> wordList)
