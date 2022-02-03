@@ -38,6 +38,7 @@ namespace WordLadderLibrary
                         if(index < ladder.Count)
                             if(wordToCompare.CompareTo(ladder.ElementAt(index)) > 0)
                             {
+                                wordToCompare = ladder.ElementAt(index);
                                 alfabelicalFirsList = new(ladder);
                                 firstFound = true;
                             }
