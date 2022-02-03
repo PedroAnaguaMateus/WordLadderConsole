@@ -6,96 +6,109 @@ namespace WordLadderLibrary
     {
         public IList<IList<string>> FindLadders(string beginWord, string endWord, IList<string> wordList)
         {
-            Dictionary<string, HashSet<string>> graph = new();
-            AddWordToGraph(beginWord, graph);
-            foreach (var word in wordList)
-                AddWordToGraph(word, graph);
-
-            //Queue For BFS
-            Queue<string> queue = new();
-            //Dictionary to store shortest paths to a word
-            Dictionary<string, IList<IList<string>>> paths = new();
-
-            queue.Enqueue(beginWord);
-            paths[beginWord] = new List<IList<string>>() { new List<string>() { beginWord } };
-
-            HashSet<string> visited = new();
-
-            while (queue.Count > 0)
-            {
-
-                var stopWord = queue.Dequeue();
-                //we can terminate loop once we reached the endWord as all paths leads here already visited in previous level 
-                if (stopWord.Equals(endWord))
+            List<IList<string>> ladders = new();
+            if (!String.IsNullOrEmpty(beginWord) && !String.IsNullOrEmpty(endWord) && wordList.Count > 0)
+                if(beginWord.Length == endWord.Length)
                 {
-                    return paths[endWord];
-                }
-                else
-                {
-                    if (visited.Contains(stopWord))
-                        continue;
-
-                    visited.Add(stopWord);
-
-                    //Transform word to intermidiate words and find matches
-                    for (int i = 0; i < stopWord.Length; i++)
-                    {
-
-                        StringBuilder sb = new(stopWord);
-                        sb[i] = '*';
-                        var transform = sb.ToString();
-
-                        if (graph.ContainsKey(transform))
-                        {
-
-                            //Iterating all adj words
-                            foreach (var word in graph[transform])
-                            {
-                                if (!visited.Contains(word))
-                                {
-                                    //fetch all paths leads current word to generate paths to adj/child node 
-                                    foreach (var path in paths[stopWord])
-                                    {
-                                        var newPath = new List<string>(path)
-                                        {
-                                            word
-                                        };
-
-                                        if (!paths.ContainsKey(word))
-                                            paths[word] = new List<IList<string>>() { newPath };
-                                        else if (paths[word][0].Count >= newPath.Count)// we are interested in shortest paths only
-                                            paths[word].Add(newPath);
-                                    }
-                                    queue.Enqueue(word);
-                                }
-                            }
-                        }
-                    }
+                    List<IList<string>> laddersfirst = FirstInteractionLadder(beginWord, endWord, wordList.ToList());
+                    List<IList<string>> laddersSecond = AppendFirstWord(beginWord, laddersfirst);
+                    ladders = AfterFirstInteractionLadder(endWord, wordList.ToList(), laddersSecond);
                 }
 
-            }
-            return new List<IList<string>>();
+            return ladders;
         }
 
-        //For example word hit can be written as *it,h*t,hi*. 
-        //This method genereates a map from each intermediate word to possible words from our wordlist
-        private void AddWordToGraph(string word, Dictionary<string, HashSet<string>> graph)
+
+        private List<IList<string>> AppendFirstWord(string beginWord, List<IList<string>> laddersfirst) 
         {
+            List<IList<string>> laddersSecond = new();
 
-            for (int i = 0; i < word.Length; i++)
+            foreach (List<string> ladder in laddersfirst)
             {
-                StringBuilder sb = new StringBuilder(word);
-                sb[i] = '*';
-
-                if (graph.ContainsKey(sb.ToString()))
-                    graph[sb.ToString()].Add(word);
+                if (!beginWord.Equals(ladder.First()))
+                    laddersSecond.Add(ladder.Append(beginWord).Reverse().ToList()); 
                 else
+                    laddersSecond.Add(ladder);
+            }
+
+            return laddersSecond;
+}
+
+        private List<IList<string>> AfterFirstInteractionLadder(string endWord, List<string> wordList, List<IList<string>> laddersfirst)
+        {
+            List<IList<string>> ladders = new(laddersfirst);
+
+            while (!LadderFinished(endWord, ladders))
+            {
+                string word = String.Empty;
+                foreach (List<string> ladder in laddersfirst)
                 {
-                    var set = new HashSet<string>();
-                    set.Add(word);
-                    graph[sb.ToString()] = set;
+                    word = ladder.Last();
+                    List<IList<string>> secondLadder = GetLadders(word, endWord, wordList.ToList());
+
+                    if (secondLadder.Count == 0) // remove
+                        ladders.Remove(ladder);
+                    else
+                    {
+                        ladders.Remove(ladder);
+                        foreach (List<string> ladder2 in secondLadder)
+                            ladders.Add(ladder.Concat(ladder2).ToList());
+                    }
+
+                }
+
+                laddersfirst = new(ladders);
+            }
+            return ladders;
+        }
+
+        private static bool LadderFinished(string endWord, List<IList<string>> ladders)
+        {
+            bool finish = false;
+
+            foreach (List<string> ladder in ladders)
+                if (endWord.Equals(ladder.Last()))
+                    finish = true;
+
+            return finish;
+        }
+
+        private List<IList<string>> FirstInteractionLadder(string beginWord, string endWord, List<string> wordList)
+        {
+            return GetLadders(beginWord, endWord, wordList);
+        }
+
+        private List<IList<string>> GetLadders(string beginWord, string endWord, List<string> wordList)
+        {
+            List<IList<string>> ladders = new();
+            StringBuilder sbBeginword = new(beginWord);
+            StringBuilder sbEndWord = new(endWord);
+
+            for (int charIndex = 0; charIndex < beginWord.Length; charIndex++)
+            {
+                if (!sbBeginword[charIndex].Equals(sbEndWord[charIndex]))
+                {
+                    StringBuilder sbBeginWordNew = GetPossibleNewWord(sbBeginword, sbEndWord, charIndex);
+
+                    if (WordExistsInDictonary(sbBeginWordNew, wordList))
+                        ladders.Add(new List<string>().Append(sbBeginWordNew.ToString()).ToList());
                 }
             }
+
+            return ladders;
+        }
+
+        private static bool WordExistsInDictonary(StringBuilder word, List<string> dictonary)
+        {
+            return dictonary.Contains(word.ToString());
+        }
+
+        private static StringBuilder GetPossibleNewWord(StringBuilder firstWord, StringBuilder secondWord, int charIndex)
+        {
+            StringBuilder newWord = new(firstWord.ToString());
+            newWord[charIndex] = secondWord[charIndex];
+            
+            return newWord;
         }
     }
 }

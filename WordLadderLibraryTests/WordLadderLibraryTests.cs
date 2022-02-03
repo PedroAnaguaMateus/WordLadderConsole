@@ -29,7 +29,7 @@ namespace WordLadderLibrary.Tests
         {
             IWordLadder wordLadder = new WordLadder();
             IList<IList<string>> result = wordLadder.FindLadders("", "", File.ReadAllLines("c:\\Tests\\words.txt")).Reverse().ToList();
-            Assert.AreEqual("", result[0][0].ToString());
+            Assert.IsTrue(result.Count == 0);
         }
 
         [TestMethod()]
