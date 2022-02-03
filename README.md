@@ -26,4 +26,11 @@ And after that i stumbled on this, and when i saw the fastest and memory optimiz
 C# BFS Solution, faster than 94% and less than 100% memory
 https://leetcode.com/problems/word-ladder-ii/discuss/375730/C-BFS-Solution-faster-than-94-and-less-than-100-memory
 
+My second atempt was to get only words with the same length as the first one, starting or ending with the given firt and last chars of begin and ending word
+
+After that i will try to change a char in the begin word and see if it exists in the dictonary.. Saving all existing words and jumps in a List of Lists :)
+This will be done recursevly until get last word.
+
+After that i will get the first list in alphabetical order.
+
 I have to had this solution! :)
