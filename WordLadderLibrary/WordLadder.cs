@@ -10,9 +10,8 @@ namespace WordLadderLibrary
             if (!String.IsNullOrEmpty(beginWord) && !String.IsNullOrEmpty(endWord) && wordList.Count > 0)
                 if(beginWord.Length == endWord.Length)
                 {
-                    List<IList<string>> laddersfirst = GetLadders(beginWord, endWord, wordList.ToList());
+                    List<IList<string>> laddersfirst = new List<IList<string>> ().Append(new List<string>().Append(beginWord).ToList()).ToList();
                     
-                    laddersfirst = AppendFirstWord(beginWord, laddersfirst);
                     ladders = AfterFirstInteractionLadder(endWord, wordList.ToList(), laddersfirst);
                     ladders = OrderLadders(ladders);
                 }
@@ -51,21 +50,6 @@ namespace WordLadderLibrary
             }
             return new List<IList<string>> { alfabelicalFirsList };
         }
-
-        private static List<IList<string>> AppendFirstWord(string beginWord, List<IList<string>> laddersfirst) 
-        {
-            List<IList<string>> laddersSecond = new();
-
-            foreach (List<string> ladder in laddersfirst)
-            {
-                if (!beginWord.Equals(ladder.First()))
-                    laddersSecond.Add(ladder.Append(beginWord).Reverse().ToList()); 
-                else
-                    laddersSecond.Add(ladder);
-            }
-
-            return laddersSecond;
-}
 
         private List<IList<string>> AfterFirstInteractionLadder(string endWord, List<string> wordList, List<IList<string>> laddersfirst)
         {
