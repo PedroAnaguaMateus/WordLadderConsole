@@ -55,7 +55,7 @@ namespace WordLadderLibrary
         {
             List<IList<string>> ladders = new(laddersfirst);
 
-            while (!LadderFinished(endWord, ladders))
+            while (!LadderFinished(endWord, ladders) && ladders.Count > 0)
             {
                 string word = String.Empty;
                 foreach (List<string> ladder in laddersfirst)
