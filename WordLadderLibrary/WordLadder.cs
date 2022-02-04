@@ -12,7 +12,7 @@ namespace WordLadderLibrary
                 {
                     List<IList<string>> laddersfirst = new() { new List<string>{ beginWord } };
                     
-                    ladders = AfterFirstInteractionLadder(endWord, wordList.ToList(), laddersfirst);
+                    ladders = GetAllLadders(endWord, wordList.ToList(), laddersfirst);
                     ladders = OrderLadders(ladders);
                 }
 
@@ -51,7 +51,7 @@ namespace WordLadderLibrary
             return new List<IList<string>> { alfabelicalFirsList };
         }
 
-        private List<IList<string>> AfterFirstInteractionLadder(string endWord, List<string> wordList, List<IList<string>> laddersfirst)
+        private List<IList<string>> GetAllLadders(string endWord, List<string> wordList, List<IList<string>> laddersfirst)
         {
             List<IList<string>> ladders = new(laddersfirst);
 
@@ -71,7 +71,6 @@ namespace WordLadderLibrary
                         foreach (List<string> ladder2 in secondLadder)
                             ladders.Add(ladder.Concat(ladder2).ToList());
                     }
-
                 }
 
                 laddersfirst = new(ladders);
@@ -103,7 +102,7 @@ namespace WordLadderLibrary
                     StringBuilder sbBeginWordNew = GetPossibleNewWord(sbBeginword, sbEndWord, charIndex);
 
                     if (WordExistsInDictonary(sbBeginWordNew, wordList))
-                        ladders.Add(new List<string>().Append(sbBeginWordNew.ToString()).ToList());
+                        ladders.Add(new List<string>() { sbBeginWordNew.ToString() });
                 }
             }
 
