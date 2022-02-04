@@ -10,7 +10,7 @@ namespace WordLadderLibrary
             if (!String.IsNullOrEmpty(beginWord) && !String.IsNullOrEmpty(endWord) && wordList.Count > 0)
                 if(beginWord.Length == endWord.Length)
                 {
-                    List<IList<string>> laddersfirst = new List<IList<string>> ().Append(new List<string>().Append(beginWord).ToList()).ToList();
+                    List<IList<string>> laddersfirst = new() { new List<string>{ beginWord } };
                     
                     ladders = AfterFirstInteractionLadder(endWord, wordList.ToList(), laddersfirst);
                     ladders = OrderLadders(ladders);
